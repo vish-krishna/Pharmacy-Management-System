@@ -10,19 +10,28 @@ spring:
         - id: user-management
           uri: http://localhost:8062/
           predicates:
-            - Path=/user/**
+            - Path=/admin/**
+
+        - id: user-management
+          uri: http://localhost:8062/
+          predicates:
+            - Path=/doctor/**
+
         - id: drug-management
           uri: http://localhost:8063/
           predicates:
             - Path=/drug/**
+
         - id: order-management
           uri: http://localhost:8064/
           predicates:
             - Path=/order/**
+
         - id: sales-management
           uri: http://localhost:8065/
           predicates:
             - Path=/sales/**
+
         - id: supplier-management
           uri: http://localhost:8066/
           predicates:
