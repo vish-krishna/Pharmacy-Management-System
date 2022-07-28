@@ -1,6 +1,6 @@
 package com.pharmacy.suppliermanagement.dao;
 
-import com.pharmacy.suppliermanagement.Entitty.Supplier;
+import com.pharmacy.suppliermanagement.models.Supplier;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

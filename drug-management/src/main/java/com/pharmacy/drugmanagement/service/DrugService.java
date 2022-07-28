@@ -1,11 +1,13 @@
 package com.pharmacy.drugmanagement.service;
 
-import com.pharmacy.drugmanagement.Entity.Drug;
+import com.pharmacy.drugmanagement.models.Drug;
 
 import java.util.List;
 
 public interface DrugService {
     public List<Drug> getDrug();
+
+    public Drug getDrugById(String drugId);
 
     public Drug saveDrug(Drug drug);
 

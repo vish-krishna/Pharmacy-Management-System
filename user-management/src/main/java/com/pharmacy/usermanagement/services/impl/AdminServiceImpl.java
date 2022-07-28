@@ -4,7 +4,7 @@ import com.pharmacy.usermanagement.dao.AdminRepository;
 import com.pharmacy.usermanagement.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.pharmacy.usermanagement.entity.Admin;
+import com.pharmacy.usermanagement.models.Admin;
 
 import java.util.List;
 
@@ -41,5 +41,10 @@ public class AdminServiceImpl implements AdminService {
     public String deleteAdmin(String id) {
         adminRepository.deleteById(id);
         return id;
+    }
+
+    @Override
+    public Admin getAdminById(String id) {
+        return adminRepository.findById(id).get();
     }
 }

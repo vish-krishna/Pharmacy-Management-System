@@ -1,6 +1,6 @@
 package com.pharmacy.drugmanagement.service.Impl;
 
-import com.pharmacy.drugmanagement.Entity.Drug;
+import com.pharmacy.drugmanagement.models.Drug;
 import com.pharmacy.drugmanagement.dao.DrugRespository;
 import com.pharmacy.drugmanagement.service.DrugService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,12 @@ public class DrugServiceImpl implements DrugService {
     }
 
     @Override
+    public Drug getDrugById(String drugId) {
+        return drugRepository.findById(drugId).get();
+    }
+
+
+    @Override
     public Drug saveDrug(Drug drug) {
         Drug drugs = drugRepository.save(drug);
         return drugs;
@@ -29,12 +35,12 @@ public class DrugServiceImpl implements DrugService {
     @Override
     public Drug updateDrug(Drug drug,String id) {
         Drug d = drugRepository.findById(id).get();
-        d.setDrug_ID(id);
-        d.setDrug_Name(drug.getDrug_Name());
-        d.setDrug_Quantity(drug.getDrug_Quantity());
-        d.setBatch_ID(drug.getBatch_ID());
+        d.setDrugId(id);
+        d.setDrugName(drug.getDrugName());
+        d.setDrugQuantity(drug.getDrugQuantity());
+        d.setBatchId(drug.getBatchId());
         d.setPrice(drug.getPrice());
-        d.setExpiry_date(drug.getExpiry_date());
+        d.setExpiryDate(drug.getExpiryDate());
         drugRepository.save(d);
         return d;
     }

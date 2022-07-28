@@ -1,4 +1,4 @@
-package com.pharmacy.suppliermanagement.Entitty;
+package com.pharmacy.suppliermanagement.models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

@@ -1,7 +1,6 @@
 package com.pharmacy.usermanagement.services;
 
-import com.pharmacy.usermanagement.entity.Admin;
-import com.pharmacy.usermanagement.entity.Doctor;
+import com.pharmacy.usermanagement.models.Doctor;
 
 import java.util.List;
 

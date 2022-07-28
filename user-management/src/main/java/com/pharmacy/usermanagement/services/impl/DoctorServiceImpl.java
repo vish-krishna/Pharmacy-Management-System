@@ -1,7 +1,7 @@
 package com.pharmacy.usermanagement.services.impl;
 
 import com.pharmacy.usermanagement.dao.DoctorRepository;
-import com.pharmacy.usermanagement.entity.Doctor;
+import com.pharmacy.usermanagement.models.Doctor;
 import com.pharmacy.usermanagement.services.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

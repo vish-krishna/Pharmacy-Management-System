@@ -1,6 +1,6 @@
 package com.pharmacy.suppliermanagement.service.Impl;
 
-import com.pharmacy.suppliermanagement.Entitty.Supplier;
+import com.pharmacy.suppliermanagement.models.Supplier;
 import com.pharmacy.suppliermanagement.dao.SupplierRepository;
 import com.pharmacy.suppliermanagement.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;

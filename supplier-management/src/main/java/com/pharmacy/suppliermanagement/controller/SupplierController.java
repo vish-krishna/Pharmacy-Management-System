@@ -1,6 +1,6 @@
 package com.pharmacy.suppliermanagement.controller;
 
-import com.pharmacy.suppliermanagement.Entitty.Supplier;
+import com.pharmacy.suppliermanagement.models.Supplier;
 import com.pharmacy.suppliermanagement.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

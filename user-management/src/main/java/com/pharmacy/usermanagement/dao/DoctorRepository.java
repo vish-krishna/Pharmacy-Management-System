@@ -1,6 +1,6 @@
 package com.pharmacy.usermanagement.dao;
 
-import com.pharmacy.usermanagement.entity.Doctor;
+import com.pharmacy.usermanagement.models.Doctor;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

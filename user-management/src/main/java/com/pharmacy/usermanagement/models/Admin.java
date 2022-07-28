@@ -1,4 +1,4 @@
-package com.pharmacy.usermanagement.entity;
+package com.pharmacy.usermanagement.models;
 
 
 import javax.persistence.Entity;

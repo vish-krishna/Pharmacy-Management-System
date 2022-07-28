@@ -1,6 +1,6 @@
 package com.pharmacy.suppliermanagement.service;
 
-import com.pharmacy.suppliermanagement.Entitty.Supplier;
+import com.pharmacy.suppliermanagement.models.Supplier;
 
 import java.util.List;
 

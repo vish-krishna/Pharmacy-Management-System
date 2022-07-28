@@ -1,6 +1,6 @@
 package com.pharmacy.drugmanagement.controller;
 
-import com.pharmacy.drugmanagement.Entity.Drug;
+import com.pharmacy.drugmanagement.models.Drug;
 import com.pharmacy.drugmanagement.service.DrugService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +18,16 @@ public class DrugController {
     public ResponseEntity<List<Drug>> getUsers() {
         try {
             return ResponseEntity.ok(drugService.getDrug());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @GetMapping("/drug/{drugId}")
+    public ResponseEntity<Drug> getDrug(@PathVariable("drugId") String drugId) {
+        try {
+            return ResponseEntity.ok(drugService.getDrugById(drugId));
         } catch (Exception e) {
             e.printStackTrace();
         }
