@@ -18,5 +18,16 @@ public interface OrderService {
 
     public String deleteOrder(String id);
 
+    public boolean verifyOrder(String orderId);
+
+    public boolean pickUpOrder(String orderId);
+
+
+    //added new methods required for sales
+    public List<Orders> findByPickedUp(boolean flag);
+    public List<Orders> findByVerified(boolean flag);
+    public List<Orders> findByDoctorId(String id);
+
+
 
 }

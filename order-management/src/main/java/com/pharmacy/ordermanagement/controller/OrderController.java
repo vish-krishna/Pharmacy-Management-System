@@ -4,7 +4,6 @@ import com.pharmacy.ordermanagement.models.Drug;
 import com.pharmacy.ordermanagement.models.OrderedDrug;
 import com.pharmacy.ordermanagement.models.Orders;
 import com.pharmacy.ordermanagement.models.OrderProcessing;
-import com.pharmacy.ordermanagement.services.DrugService;
 import com.pharmacy.ordermanagement.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,22 +12,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
+@RequestMapping("/order")
 public class OrderController {
-
     @Autowired
     private OrderService orderService;
-
-    @Autowired
-    private DrugService drugService;
-
     @Autowired
     private RestTemplate restTemplate;
 
-    @GetMapping("/order")
+    @GetMapping()
     public ResponseEntity getOrder() {
         try {
             return ResponseEntity.ok(orderService.getOrder());
@@ -39,8 +33,44 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/pickUp/{orderId}")
+    public ResponseEntity orderPickUp(@PathVariable("orderId") String orderId) {
+        try {
+            boolean flag = orderService.pickUpOrder(orderId);
+            if(flag) {
+                return ResponseEntity.status(HttpStatus.OK).body("order added to picked-up section");
+            }else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No order found");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("INTERNAL_SERVER_ERROR");
+        }
+    }
 
-    @GetMapping("/order/{id}")
+    @GetMapping("/verify/{orderId}")
+    public ResponseEntity verifyOrder(@PathVariable("orderId") String orderId) {
+        try {
+            boolean flag = orderService.verifyOrder(orderId);
+            if(flag) {
+                return ResponseEntity.status(HttpStatus.OK).body("order verified");
+            }else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No order found");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("INTERNAL_SERVER_ERROR");
+        }
+    }
+
+
+
+
+    @GetMapping("/{id}")
     public ResponseEntity getOrderById(@PathVariable("id") String id) {
         try {
             return ResponseEntity.ok(orderService.getOrderById(id));
@@ -52,30 +82,15 @@ public class OrderController {
     }
 
 
-    @PostMapping("/order")
+    @PostMapping()
     public ResponseEntity createOrder(@RequestBody OrderProcessing orderProcessing) {
 
-        /*
-         * order processing
-         *   order id
-         *   doctor id
-         *   list<OrderedDrug> -->  drug id, quantity
-         */
-
-
         List<OrderedDrug> orderedDrugList = orderProcessing.getOrderedDrugList();
-//        List<OrderedDrug> orderedDrugList = new ArrayList<>();
-//        OrderedDrug od = new OrderedDrug("d1",1);
-//        OrderedDrug od1 = new OrderedDrug("d2",1);
-//
-//        orderedDrugList.add(od);
-//        orderedDrugList.add(od1);
         List<Drug> drugList = new ArrayList<>();
 
         double totalPrice = 0;
 
         Orders order1 = new Orders();
-        order1.setOrderId(orderProcessing.getOrderId());
         order1.setDoctorId(orderProcessing.getDoctorId());
         order1.setPickedUp(false);
         order1.setVerified(false);
@@ -88,66 +103,15 @@ public class OrderController {
             drug.setDrugQuantity(orderedDrug.getQuantity());
             totalPrice += drug.getPrice() * orderedDrug.getQuantity();
             drugList.add(drug);
-            //drugService.saveDrug(drug);
         }
-
-
-
-
         order1.setDrugList(drugList);
         order1.setTotalPrice(totalPrice);
-
         Orders orders = orderService.saveOrder(order1);
         return new ResponseEntity<>(orders,HttpStatus.CREATED);
-        //
 
-
-
-
-
-//
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("No order created");
-
-
-/*
-        List<OrderedDrug> orderedDrugList = orderProcessing.getOrderedDrugList();
-        List<Drug> drugList = new ArrayList<>();
-        double totalPrice = 0;
-        System.out.println("drug +++++++++++" + "" + "\n" + "\n");
-        for(OrderedDrug orderedDrug : orderedDrugList){
-            Drug drug = restTemplate.getForObject("http://drug-management/drug/"+orderedDrug.getDrugId(),Drug.class);
-            drugList.add(drug);
-            drugService.saveDrug(drug);
-            totalPrice += drug.getPrice() * orderedDrug.getQuantity();
-        }
-
-        //Drug drug = new Drug("d1","drugName1",5,new Date(),105,"b1");
-        System.out.println("drug +++++++++++" + "" + "\n" + "\n" + "  ");
-
-        Orders order = new Orders();
-        order.setOrderId(orderProcessing.getOrderId());
-        order.setDoctorId(orderProcessing.getDoctorId());
-        order.setDrugList(drugList);
-        order.setPickedUp(false);
-        order.setVerified(false);
-
-        order.setTotalPrice(totalPrice);
-
-        Orders orders = orderService.saveOrder(order);
-        return new ResponseEntity<>(orders,HttpStatus.CREATED);
-
-//        try {
-//            return ResponseEntity.ok(orderService.saveOrder(order));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("No order created");
-//        }*/
     }
-    @PutMapping("/order/{orderId}")
+    @PutMapping("/{orderId}")
     public ResponseEntity updateDrug(@RequestBody Orders order, @PathVariable("orderId") String id) {
-
         try {
             return ResponseEntity.ok(orderService.updateOrder(order,id));
         } catch (Exception e) {
@@ -167,5 +131,42 @@ public class OrderController {
         }
     }
 
+
+    // helper methods
+
+
+    @GetMapping("/byPickedUp/{flag}")
+    public ResponseEntity findByPickedUp(@PathVariable("flag") boolean flag){
+        try {
+            return ResponseEntity.ok(orderService.findByPickedUp(flag));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No order found");
+        }
+    }
+
+    @GetMapping("/byVerified/{flag}")
+    public ResponseEntity findByVerified(@PathVariable("flag") boolean flag){
+        try {
+            return ResponseEntity.ok(orderService.findByVerified(flag));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No order found");
+        }
+
+    }
+    @GetMapping("/byDoctorId/{id}")
+    public ResponseEntity findByDoctorId(@PathVariable("id") String id){
+        try {
+            return ResponseEntity.ok(orderService.findByDoctorId(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No order found");
+        }
+
+    }
 
 }

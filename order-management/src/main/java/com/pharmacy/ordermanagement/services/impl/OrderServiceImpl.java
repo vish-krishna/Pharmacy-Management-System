@@ -34,16 +34,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Orders updateOrder(Orders order, String id) {
-        Orders o= orderRepository.findById(id).get();
-        o.setOrderId(id);
-        o.setDoctorId(order.getDoctorId());
-        o.setOrderId(order.getOrderId());
-        o.setTotalPrice(order.getTotalPrice());
-        o.setPickedUp(order.isPickedUp());
-        o.setVerified(order.isVerified());
-        orderRepository.save(o);
-        return o;
+        Orders updatedOrder= orderRepository.findById(id).get();
+        updatedOrder.setDrugList(order.getDrugList());
+        double totalPrice = 0;
+        for(Drug drug : updatedOrder.getDrugList()){
+            totalPrice+=drug.getPrice() * drug.getDrugQuantity();
+        }
+        updatedOrder.setTotalPrice(totalPrice);
+        orderRepository.save(updatedOrder);
+        return updatedOrder;
     }
+
+
 
     @Override
     public String deleteOrder(String id) {
@@ -51,5 +53,41 @@ public class OrderServiceImpl implements OrderService {
         return id;
     }
 
+    @Override
+    public boolean verifyOrder(String orderId) {
+        Orders orders = orderRepository.findById(orderId).get();
+        if(!(orders.isVerified())){
+            orders.setVerified(true);
+            orderRepository.save(orders);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean pickUpOrder(String orderId) {
+        Orders orders = orderRepository.findById(orderId).get();
+        if(!(orders.isVerified())){
+            orders.setPickedUp(true);
+            orderRepository.save(orders);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<Orders> findByPickedUp(boolean flag) {
+        return orderRepository.findByPickedUp(flag);
+    }
+
+    @Override
+    public List<Orders> findByVerified(boolean flag) {
+        return orderRepository.findByVerified(flag);
+    }
+
+    @Override
+    public List<Orders> findByDoctorId(String id) {
+        return orderRepository.findByDoctorId(id);
+    }
 
 }
