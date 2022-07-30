@@ -35,13 +35,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Orders updateOrder(Orders order, String id) {
         Orders o= orderRepository.findById(id).get();
-//        o.setOrderId(id);
-//        o.setDoctorId(order.getDoctorId());
-//        o.setOrderId(order.getOrderId());
-//        o.setQuantity(order.getQuantity());
-//        o.setTotalPrice(order.getTotalPrice());
-//        o.setPickedUp(order.isPickedUp());
-//        orderRepository.save(o);
+        o.setOrderId(id);
+        o.setDoctorId(order.getDoctorId());
+        o.setOrderId(order.getOrderId());
+        o.setTotalPrice(order.getTotalPrice());
+        o.setPickedUp(order.isPickedUp());
+        o.setVerified(order.isVerified());
+        orderRepository.save(o);
         return o;
     }
 

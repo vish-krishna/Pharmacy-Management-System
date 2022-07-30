@@ -1,13 +1,12 @@
 package com.pharmacy.ordermanagement.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
-@Entity
 public class Drug {
-    @Id
     private String drugId;
     private String drugName;
     private int drugQuantity;
@@ -15,22 +14,8 @@ public class Drug {
     private double price;
     private String batchId;
 
-    @ManyToOne
-    @JoinColumn(name = "orders_order_id")
-    @JsonBackReference
-    private Orders orders;
-
-
 
     public Drug() {
-    }
-
-    public Orders getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Orders orders) {
-        this.orders = orders;
     }
 
     public String getDrugId() {

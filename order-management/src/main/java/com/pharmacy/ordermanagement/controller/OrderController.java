@@ -40,6 +40,18 @@ public class OrderController {
     }
 
 
+    @GetMapping("/order/{id}")
+    public ResponseEntity getOrderById(@PathVariable("id") String id) {
+        try {
+            return ResponseEntity.ok(orderService.getOrderById(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No order found");
+        }
+    }
+
+
     @PostMapping("/order")
     public ResponseEntity createOrder(@RequestBody OrderProcessing orderProcessing) {
 
@@ -68,13 +80,14 @@ public class OrderController {
         order1.setPickedUp(false);
         order1.setVerified(false);
 
+        List<Orders> orList = new ArrayList<>();
+        orList.add(order1);
 
         for(OrderedDrug orderedDrug : orderedDrugList){
             Drug drug = restTemplate.getForObject("http://drug-management/drug/"+orderedDrug.getDrugId(),Drug.class);
             drug.setDrugQuantity(orderedDrug.getQuantity());
             totalPrice += drug.getPrice() * orderedDrug.getQuantity();
             drugList.add(drug);
-            drug.setOrders(order1);
             //drugService.saveDrug(drug);
         }
 
@@ -134,6 +147,7 @@ public class OrderController {
     }
     @PutMapping("/order/{orderId}")
     public ResponseEntity updateDrug(@RequestBody Orders order, @PathVariable("orderId") String id) {
+
         try {
             return ResponseEntity.ok(orderService.updateOrder(order,id));
         } catch (Exception e) {

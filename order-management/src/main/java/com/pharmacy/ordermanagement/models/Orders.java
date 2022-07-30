@@ -1,23 +1,20 @@
 package com.pharmacy.ordermanagement.models;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.List;
 
-@Entity
+@Document
 public class Orders {
     @Id
     private String orderId;
     private String doctorId;
-
-    @ManyToMany(mappedBy = "orders", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
-    @JsonManagedReference
-    private List<Drug> drugList;
-
     private double totalPrice;
     private boolean pickedUp;
     private boolean verified;
 
+    private List<Drug> drugList;
     public Orders() {
     }
 
