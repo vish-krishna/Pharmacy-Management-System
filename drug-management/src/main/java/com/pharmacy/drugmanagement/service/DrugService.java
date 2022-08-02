@@ -13,5 +13,7 @@ public interface DrugService {
 
     public Drug updateDrug(Drug drug, String id);
 
+    public Drug updateDrugQuantity(Drug drug, String id);
+
     public String deleteDrug(String id);
 }

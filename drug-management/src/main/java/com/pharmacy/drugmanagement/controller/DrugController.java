@@ -40,9 +40,15 @@ public class DrugController {
     }
 
     @PutMapping("/drug/{drugId}")
-    public ResponseEntity<Drug> updateUser(@RequestBody Drug drug, @PathVariable("drugId") String id) {
+    public ResponseEntity<Drug> updateDrug(@RequestBody Drug drug, @PathVariable("drugId") String id) {
         return ResponseEntity.ok(drugService.updateDrug(drug, id));
     }
+
+    @PutMapping("/drug/quantity/{drugId}")
+    public ResponseEntity<Drug> updateDrugQuantity(@RequestBody Drug drug, @PathVariable("drugId") String id) {
+        return ResponseEntity.ok(drugService.updateDrugQuantity(drug, id));
+    }
+
 
     @DeleteMapping("/drug/{drugId}")
     public ResponseEntity<String> deleteDrug(@PathVariable("drugId") String id) {

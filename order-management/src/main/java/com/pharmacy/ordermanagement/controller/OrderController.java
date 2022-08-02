@@ -33,6 +33,15 @@ public class OrderController {
         }
     }
 
+    @PostMapping("/new")
+    public ResponseEntity createNewOrder(@RequestBody Orders orders){
+        return ResponseEntity.ok(orders);
+
+    }
+
+
+
+
     @GetMapping("/pickUp/{orderId}")
     public ResponseEntity orderPickUp(@PathVariable("orderId") String orderId) {
         try {
@@ -83,30 +92,57 @@ public class OrderController {
 
 
     @PostMapping()
-    public ResponseEntity createOrder(@RequestBody OrderProcessing orderProcessing) {
+    public ResponseEntity createOrder(@RequestBody Orders orders) {
 
-        List<OrderedDrug> orderedDrugList = orderProcessing.getOrderedDrugList();
+        // getting the list of drug requested by doctor
+        List<Drug> drugListRequested = orders.getDrugList();
+
+        // creating new drug list which are availabe and order get placed
         List<Drug> drugList = new ArrayList<>();
 
         double totalPrice = 0;
 
-        Orders order1 = new Orders();
-        order1.setDoctorId(orderProcessing.getDoctorId());
-        order1.setPickedUp(false);
-        order1.setVerified(false);
+        for(Drug d : drugListRequested){
+            // getting the drug info from drug management microservice
+            Drug drug = restTemplate.getForObject("http://drug-management/drug/"+d.getDrugId(),Drug.class);
+            if(drug.getDrugQuantity() >= d.getDrugQuantity()){
+                // store quantity to be update in drug management
+                int updatedQuantity = drug.getDrugQuantity() - d.getDrugQuantity();
 
-        List<Orders> orList = new ArrayList<>();
-        orList.add(order1);
+                // update ordered drug quantity
+                drug.setDrugQuantity(d.getDrugQuantity());
 
-        for(OrderedDrug orderedDrug : orderedDrugList){
-            Drug drug = restTemplate.getForObject("http://drug-management/drug/"+orderedDrug.getDrugId(),Drug.class);
-            drug.setDrugQuantity(orderedDrug.getQuantity());
-            totalPrice += drug.getPrice() * orderedDrug.getQuantity();
-            drugList.add(drug);
+                // calaculating total price of all drugs
+                totalPrice += drug.getPrice() * d.getDrugQuantity();
+
+                // adding drug into order
+                drugList.add(drug);
+
+                // update drug in drug management
+                d.setDrugQuantity(updatedQuantity);
+                restTemplate.put("http://drug-management/drug/quantity/"+d.getDrugId(),d,Drug.class);
+
+            }else{
+
+                // update drug in drug management
+                for(Drug drug1 : drugList){
+                    Drug drug2 = restTemplate.getForObject("http://drug-management/drug/"+drug1.getDrugId(),Drug.class);
+                    drug2.setDrugQuantity(drug1.getDrugQuantity()+drug2.getDrugQuantity());
+                    restTemplate.put("http://drug-management/drug/quantity/"+drug2.getDrugId(),drug2,Drug.class);
+                }
+
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Drug not availabe");
+            }
         }
-        order1.setDrugList(drugList);
-        order1.setTotalPrice(totalPrice);
-        Orders orders = orderService.saveOrder(order1);
+
+        // setting orders default properties
+        orders.setPickedUp(false);
+        orders.setVerified(false);
+        orders.setDrugList(drugList);
+        orders.setTotalPrice(totalPrice);
+
+        // saving the order in database
+        orders = orderService.saveOrder(orders);
         return new ResponseEntity<>(orders,HttpStatus.CREATED);
 
     }
@@ -120,7 +156,7 @@ public class OrderController {
                     .body("No order found");
         }
     }
-    @DeleteMapping("/order/{orderId}")
+    @DeleteMapping("/{orderId}")
     public ResponseEntity deleteOrder(@PathVariable("orderId") String id) {
         try {
             return ResponseEntity.ok(orderService.deleteOrder(id));

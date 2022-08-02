@@ -10,6 +10,4 @@ public interface AdminRepository extends CrudRepository<Admin,String> {
 
     public List<Admin> findAll();
 
-    public Optional<Admin> findById(String id);
-
 }

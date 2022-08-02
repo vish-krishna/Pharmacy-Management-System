@@ -1,4 +1,4 @@
-package com.pharmacy.ordermanagement.config;
+package com.pharmacy.suppliermanagement.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,15 +10,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig{
-
+public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).select()
-                .apis(RequestHandlerSelectors.basePackage("com.pharmacy.ordermanagement.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.pharmacy.suppliermanagement.controller"))
                 .paths(PathSelectors.regex("/.*"))
                 .build();
     }
-
 
 }

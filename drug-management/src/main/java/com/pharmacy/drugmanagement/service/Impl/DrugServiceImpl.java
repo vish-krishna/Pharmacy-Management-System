@@ -46,6 +46,17 @@ public class DrugServiceImpl implements DrugService {
     }
 
     @Override
+    public Drug updateDrugQuantity(Drug drug, String id) {
+        Drug d = drugRepository.findById(id).get();
+        d.setDrugQuantity(drug.getDrugQuantity());
+        drugRepository.save(d);
+        return d;
+    }
+
+
+
+
+    @Override
     public String deleteDrug(String id) {
         drugRepository.deleteById(id);
         return id;

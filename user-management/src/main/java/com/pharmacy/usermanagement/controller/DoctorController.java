@@ -33,11 +33,6 @@ public class DoctorController {
         return null;
     }
 
-//    @PostMapping()
-//    public ResponseEntity<Doctor> createDoctor(@RequestBody Doctor doctor){
-//        return ResponseEntity.ok(doctorService.saveDoctor(doctor));
-//    }
-
     @PostMapping()
     public ResponseEntity createAdmin(@RequestBody Doctor doctor) {
         try {
