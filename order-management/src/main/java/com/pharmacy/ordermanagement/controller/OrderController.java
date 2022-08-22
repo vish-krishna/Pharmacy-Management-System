@@ -41,7 +41,6 @@ public class OrderController {
     public ResponseEntity createOrder(@RequestBody OrderProcessing orderProcessing) {
 
         // getting the list of drug requested by doctor
-        //List<Drug> drugListRequested = orders.getDrugList();
         List<OrderedDrug> drugListRequested = orderProcessing.getOrderedDrugList();
 
         // creating new drug list which are available and order get placed
@@ -58,19 +57,21 @@ public class OrderController {
         for(OrderedDrug d : drugListRequested){
             // getting the drug info from drug management microservice
             Drug drug = restTemplate.getForObject("http://drug-management/drug/"+d.getDrugId(),Drug.class);
-            if(drug != null && drug.getDrugQuantity() >= d.getQuantity()){
+            if(drug != null && drug.getDrugQuantity() >= d.getDrugQuantity()){
                 // store quantity to be update in drug management
-                int updatedQuantity = drug.getDrugQuantity() - d.getQuantity();
+                int updatedQuantity = drug.getDrugQuantity() - d.getDrugQuantity();
+
+                System.err.println(d.getDrugQuantity());
 
                 // calaculating total price of all drugs
-                totalPrice += drug.getPrice() * d.getQuantity();
+                totalPrice += drug.getPrice() * d.getDrugQuantity();
 
                 // update drug in drug management
                 drug.setDrugQuantity(updatedQuantity);
                 restTemplate.put("http://drug-management/drug/quantity/"+d.getDrugId(),drug,Drug.class);
 
                 // update ordered drug quantity
-                drug.setDrugQuantity(d.getQuantity());
+                drug.setDrugQuantity(d.getDrugQuantity());
 
                 // adding drug into order
                 drugList.add(drug);

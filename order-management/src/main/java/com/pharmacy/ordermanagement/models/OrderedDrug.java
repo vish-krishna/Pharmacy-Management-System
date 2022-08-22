@@ -2,14 +2,14 @@ package com.pharmacy.ordermanagement.models;
 
 public class OrderedDrug {
     private String drugId;
-    private int quantity;
+    private int drugQuantity;
 
     public OrderedDrug() {
     }
 
-    public OrderedDrug(String drugId, int quantity) {
+    public OrderedDrug(String drugId, int drugQuantity) {
         this.drugId = drugId;
-        this.quantity = quantity;
+        this.drugQuantity = drugQuantity;
     }
 
     public String getDrugId() {
@@ -20,11 +20,11 @@ public class OrderedDrug {
         this.drugId = drugId;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getDrugQuantity() {
+        return drugQuantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setDrugQuantity(int drugQuantity) {
+        this.drugQuantity = drugQuantity;
     }
 }

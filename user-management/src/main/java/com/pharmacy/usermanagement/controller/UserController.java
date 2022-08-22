@@ -60,7 +60,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user/id/{userId}")
+    @GetMapping("/user/{userId}")
     @ApiOperation(value = "get user by user id")
     public ResponseEntity getUsersById(@PathVariable("userId") String id){
         Users a = userService.findByUserId(id);
