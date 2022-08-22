@@ -1,7 +1,7 @@
 package com.pharmacy.drugmanagement.service.Impl;
 
 import com.pharmacy.drugmanagement.models.Drug;
-import com.pharmacy.drugmanagement.dao.DrugRespository;
+import com.pharmacy.drugmanagement.dao.DrugRepository;
 import com.pharmacy.drugmanagement.service.DrugService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.List;
 public class DrugServiceImpl implements DrugService {
 
     @Autowired
-    private DrugRespository drugRepository;
+    private DrugRepository drugRepository;
 
     @Override
     public List<Drug> getDrug() {
@@ -28,8 +28,10 @@ public class DrugServiceImpl implements DrugService {
 
     @Override
     public Drug saveDrug(Drug drug) {
+
         Drug drugs = drugRepository.save(drug);
-        return drugs;
+        drug.setDrugId(drugs.getDrugId());
+        return drug;
     }
 
     @Override
@@ -52,9 +54,6 @@ public class DrugServiceImpl implements DrugService {
         drugRepository.save(d);
         return d;
     }
-
-
-
 
     @Override
     public String deleteDrug(String id) {

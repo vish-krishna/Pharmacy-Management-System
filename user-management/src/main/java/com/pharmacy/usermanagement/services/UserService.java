@@ -14,4 +14,8 @@ public interface UserService {
     public Users updateUser(Users users, String id);
 
     public String deleteUser(String id);
+
+    Users findByUserId(String id);
+
+    public Users findByUserEmail(String email);
 }

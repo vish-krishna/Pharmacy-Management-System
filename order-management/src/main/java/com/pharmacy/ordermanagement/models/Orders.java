@@ -1,15 +1,20 @@
 package com.pharmacy.ordermanagement.models;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
 @Document
+@ApiModel(description = "details about the order")
 public class Orders {
 
     @Id
     private String orderId;
+
     private String doctorId;
     private double totalPrice;
     private boolean pickedUp;

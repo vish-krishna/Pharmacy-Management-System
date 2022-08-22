@@ -10,7 +10,7 @@ public class Drug {
     private String drugId;
     private String drugName;
     private int drugQuantity;
-    private Date expiryDate;
+    private String expiryDate;
     private double price;
     private String batchId;
 
@@ -42,11 +42,11 @@ public class Drug {
         this.drugQuantity = drugQuantity;
     }
 
-    public Date getExpiryDate() {
+    public String getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(Date expiryDate) {
+    public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
     }
 

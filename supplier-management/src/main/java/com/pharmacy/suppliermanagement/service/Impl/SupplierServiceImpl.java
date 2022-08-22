@@ -27,20 +27,25 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public Supplier updateSupplier(Supplier supplier,String id) {
+    public Supplier updateSupplier(Supplier supplier,long id) {
         Supplier s = supplierRepository.findById(id).get();
-        s.setSupplier_Id(id);
-        s.setSupplier_name(supplier.getSupplier_name());
-        s.setSupplier_contact(supplier.getSupplier_contact());
-        s.setSupplier_email(supplier.getSupplier_email());
+        s.setSupplierId(id);
+        s.setSupplierName(supplier.getSupplierName());
+        s.setSupplierContact(supplier.getSupplierContact());
+        s.setSupplierEmail(supplier.getSupplierEmail());
         supplierRepository.save(s);
         return s;
     }
 
     @Override
-    public String deleteSupplier(String id) {
+    public long deleteSupplier(long id) {
         supplierRepository.deleteById(id);
         return id;
     }
-}
 
+    @Override
+    public Supplier findSupplierById(long id) {
+        Supplier s = supplierRepository.findSupplierBySupplierId(id);
+        return s;
+    }
+}

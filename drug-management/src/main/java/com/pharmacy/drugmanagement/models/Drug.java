@@ -1,23 +1,40 @@
 package com.pharmacy.drugmanagement.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@ApiModel(description = "Details about the drugs")
 public class Drug {
+
     @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2",strategy = "uuid2")
     private String drugId;
+
+    @ApiModelProperty(notes = "Name of drug")
     private String drugName;
+
+    @ApiModelProperty(notes = "Quantity of drug")
     private int drugQuantity;
-    private Date expiryDate;
+
+    @ApiModelProperty(notes = "Expiry date of drug")
+    private String expiryDate;
+
+    @ApiModelProperty(notes = "Price of drug")
     private double price;
+
+    @ApiModelProperty(notes = "BatchId of drug")
     private String batchId;
 
     public Drug() {
     }
 
-    public Drug(String drugId, String drugName, int drugQuantity, Date expiryDate, double price, String batchId) {
+    public Drug(String drugId, String drugName, int drugQuantity, String expiryDate, double price, String batchId) {
         this.drugId = drugId;
         this.drugName = drugName;
         this.drugQuantity = drugQuantity;
@@ -50,11 +67,11 @@ public class Drug {
         this.drugQuantity = drugQuantity;
     }
 
-    public Date getExpiryDate() {
+    public String getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(Date expiryDate) {
+    public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
     }
 

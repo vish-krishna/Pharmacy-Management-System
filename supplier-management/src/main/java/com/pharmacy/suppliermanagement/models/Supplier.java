@@ -1,64 +1,68 @@
 package com.pharmacy.suppliermanagement.models;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 @Entity
 public class Supplier {
     @Id
-    private String Supplier_Id;
-    private String Supplier_name;
-    private String Supplier_email;
-    private int Supplier_contact;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private long supplierId;
+    private String supplierName;
+    private String supplierEmail;
+    private String supplierContact;
 
     public Supplier() {
     }
 
-    public Supplier(String supplier_Id, String supplier_name, String supplier_email, int supplier_contact) {
-        Supplier_Id = supplier_Id;
-        Supplier_name = supplier_name;
-        Supplier_email = supplier_email;
-        Supplier_contact = supplier_contact;
+    public Supplier(long supplierId, String supplierName, String supplierEmail, String supplierContact) {
+        this.supplierId = supplierId;
+        this.supplierName = supplierName;
+        this.supplierEmail = supplierEmail;
+        this.supplierContact = supplierContact;
     }
 
-    public String getSupplier_Id() {
-        return Supplier_Id;
+
+    public long getSupplierId() {
+        return supplierId;
     }
 
-    public void setSupplier_Id(String supplier_Id) {
-        Supplier_Id = supplier_Id;
+    public void setSupplierId(long supplierId) {
+        this.supplierId = supplierId;
     }
 
-    public String getSupplier_name() {
-        return Supplier_name;
+    public String getSupplierName() {
+        return supplierName;
     }
 
-    public void setSupplier_name(String supplier_name) {
-        Supplier_name = supplier_name;
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
     }
 
-    public String getSupplier_email() {
-        return Supplier_email;
+    public String getSupplierEmail() {
+        return supplierEmail;
     }
 
-    public void setSupplier_email(String supplier_email) {
-        Supplier_email = supplier_email;
+    public void setSupplierEmail(String supplierEmail) {
+        this.supplierEmail = supplierEmail;
     }
 
-    public int getSupplier_contact() {
-        return Supplier_contact;
+    public String getSupplierContact() {
+        return supplierContact;
     }
 
-    public void setSupplier_contact(int supplier_contact) {
-        Supplier_contact = supplier_contact;
+    public void setSupplierContact(String supplierContact) {
+        this.supplierContact = supplierContact;
     }
 
     @Override
     public String toString() {
         return "Supplier{" +
-                "Supplier_Id='" + Supplier_Id + '\'' +
-                ", Supplier_name='" + Supplier_name + '\'' +
-                ", Supplier_email='" + Supplier_email + '\'' +
-                ", Supplier_contact=" + Supplier_contact +
+                "supplierId='" + supplierId + '\'' +
+                ", supplierName='" + supplierName + '\'' +
+                ", supplierEmail='" + supplierEmail + '\'' +
+                ", supplierContact=" + supplierContact +
                 '}';
     }
 }

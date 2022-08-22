@@ -67,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public boolean pickUpOrder(String orderId) {
         Orders orders = orderRepository.findById(orderId).get();
-        if(!(orders.isVerified())){
+        if(orders.isVerified()){
             orders.setPickedUp(true);
             orderRepository.save(orders);
             return true;
