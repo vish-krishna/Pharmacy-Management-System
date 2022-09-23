@@ -12,27 +12,27 @@ import org.springframework.web.client.RestTemplate;
 public class SalesController {
     @Autowired
     private RestTemplate restTemplate;
-    @GetMapping("/sales/total")
-    public Double TotalSales() {
-        ResponseEntity<Orders[]> response = restTemplate.getForEntity(
-                "http://localhost:8064/order/orders",
-                Orders[].class);
+
+    @GetMapping("/total")
+    public Double totalSales(){
+        ResponseEntity<Orders[]> response = restTemplate.getForEntity("http://order-management/order", Orders[].class);
         Orders[] o = response.getBody();
+
         Double totalSale = 0.0;
         for (Orders orders1 : o)
             totalSale += orders1.getTotalPrice();
         return totalSale;
     }
 
-    @GetMapping("/{drugId}")
-    public Double SaleByDocId(@PathVariable("drugId") String id) {
+
+    @GetMapping("/{doctorId}")
+    public Double SaleByDocId(@PathVariable("doctorId") String id) {
         ResponseEntity<Orders[]> response =
                 restTemplate.getForEntity(
-                        "http://localhost:8064/order/" + id,
+                        "http://order-management/order/byDoctorId/" + id,
                         Orders[].class);
         Orders[] o = response.getBody();
         Double totalSale = 0.0;
-
         for (Orders orders : o)
             totalSale += orders.getTotalPrice();
         return totalSale;

@@ -19,7 +19,6 @@ public class DrugController {
     public ResponseEntity<List<Drug>> getDrugs() {
         try {
             List<Drug> d = drugService.getDrug();
-            System.err.println(d.get(0).getExpiryDate());
             return ResponseEntity.ok(d);
         } catch (Exception e) {
             e.printStackTrace();

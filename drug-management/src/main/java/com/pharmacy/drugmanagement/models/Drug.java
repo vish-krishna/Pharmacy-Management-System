@@ -14,6 +14,7 @@ public class Drug {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2",strategy = "uuid2")
+    @ApiModelProperty(hidden = true)
     private String drugId;
 
     @ApiModelProperty(notes = "Name of drug")

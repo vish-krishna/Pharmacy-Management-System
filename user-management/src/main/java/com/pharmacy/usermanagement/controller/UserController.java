@@ -43,6 +43,7 @@ public class UserController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     authenticationRequest.getUsername(), authenticationRequest.getPassword()));
         } catch (BadCredentialsException e) {
+            //return some message for frontend
             throw new Exception("Incorrect username or password", e);
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
@@ -98,6 +99,7 @@ public class UserController {
             ResponseEntity.status(HttpStatus.CREATED)
                     .body(userService.saveUser(users));
             logger.trace("Creating user");
+            System.err.println(users.getUserRole());
             return ResponseEntity.status(HttpStatus.CREATED).body(users);
 //                    .body( emailSenderService.sendSimpleEmail(users.getUserEmail(),
 //                            "PHARMACARE: New Account Created ",

@@ -1,6 +1,8 @@
 package com.pharmacy.usermanagement.models;
 
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -9,18 +11,25 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
+@ApiModel(description = "Details about the Users")
 public class Users {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2",strategy = "uuid2")
+    @ApiModelProperty(hidden = true)
     private String userId;
 
+    @ApiModelProperty(notes = "Name of User")
     private String userName;
     @Column(unique = true,nullable = false)
+    @ApiModelProperty(notes = "Email of User")
     private String userEmail;
+    @ApiModelProperty(notes = "Password of User")
     private String userPassword;
+    @ApiModelProperty(notes = "Contact of User")
     private String userContact;
 
+    @ApiModelProperty(notes = "Role of User i.e. Doctor or Admin")
     private String userRole;
 
     public Users() {
